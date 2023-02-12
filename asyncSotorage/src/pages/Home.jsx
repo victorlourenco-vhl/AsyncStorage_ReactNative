@@ -1,10 +1,27 @@
-import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, FlatList } from "react-native";
 import Icon from 'react-native-vector-icons/AntDesign';
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import Card from '../components/CardUser';
 
 export default function Home({ navigation }) {
+    const [data, setData] = useState([])
+
+    async function handleFetchData() {
+        const response = await AsyncStorage.getItem("@meuform:passwords")
+        const dataJson = JSON.parse(response)
+        setData(dataJson)
+        console.log(dataJson)
+    }
+
+    useFocusEffect(useCallback(() => {
+        handleFetchData();
+    }, []))
+
     return (
         <View style={styles.container}>
+
             <Text>Olá, teste</Text>
             <TouchableOpacity
                 style={styles.buttonAddUser}
@@ -12,6 +29,14 @@ export default function Home({ navigation }) {
             >
                 <Icon name='adduser' size={40} color='#000' />
             </TouchableOpacity>
+            <FlatList
+            style={{marginBottom: 90}}
+                data={data}
+                renderItem={({ item }) =>
+                    <Card item={item} />
+                }
+                keyExtractor={item => item.id}
+            />
 
         </View>
     )
