@@ -12,7 +12,6 @@ export default function Home({ navigation }) {
         const response = await AsyncStorage.getItem("@meuform:passwords")
         const dataJson = JSON.parse(response)
         setData(dataJson)
-        console.log(dataJson)
     }
 
     useFocusEffect(useCallback(() => {
@@ -30,10 +29,10 @@ export default function Home({ navigation }) {
                 <Icon name='adduser' size={40} color='#000' />
             </TouchableOpacity>
             <FlatList
-            style={{marginBottom: 90}}
+                style={{ marginBottom: 90 }}
                 data={data}
                 renderItem={({ item }) =>
-                    <Card item={item} />
+                    <Card item={item} data={data} setData={setData}/>
                 }
                 keyExtractor={item => item.id}
             />

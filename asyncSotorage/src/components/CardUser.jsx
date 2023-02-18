@@ -4,9 +4,17 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-export default function CardUser({ item }) {
+export default function CardUser({ item, data, setData }) {
 
-    const { removeItem } = useAsyncStorage("@meuform:passwords")
+    const { getItem, setItem } = useAsyncStorage("@meuform:passwords")
+
+    async function handleRemove(id){
+        const response = await getItem();
+        const previusData = response ? JSON.parse(response) : [];
+        const data = previusData.filter((item) => item.id !== id);
+        setItem(JSON.stringify(data))
+       setData(data)
+    }
 
     return (
         <Card>
@@ -31,7 +39,7 @@ export default function CardUser({ item }) {
                     </TouchableOpacity>
                     <TouchableOpacity
                      style={{marginLeft: 15}}
-                        onPress={() => console.log("teste")}
+                        onPress={() => handleRemove(item.id)}
                     >
                         <Icon
                             name='close'

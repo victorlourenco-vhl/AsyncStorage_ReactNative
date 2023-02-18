@@ -1,5 +1,5 @@
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Button, StyleSheet, View } from "react-native";
 import { Input } from 'react-native-elements';
 import Toast from 'react-native-toast-message';
@@ -30,7 +30,6 @@ export default function Cadastro() {
             // CREATE
             await setItem(JSON.stringify(data));
 
-            // DELETE
 
             Toast.show({
                 type: "success",
